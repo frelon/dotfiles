@@ -1,0 +1,8 @@
+[
+  {
+    "command": [
+      "xterm"
+    ],
+    "working_directory": "/home/frelon"
+  }
+]
