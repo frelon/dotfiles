@@ -1,0 +1,183 @@
+set ssl_starttls=yes
+#set ssl_force_tls=yes
+#set ssl_use_sslv3=yes
+set timeout=60  #Check for mail every minute
+set mail_check=30
+
+# Incoming
+#
+set folder="imaps://outlook.office365.com:993"
+set mbox="+INBOX"
+set postponed="+Drafts"
+set spoolfile="+INBOX"
+set record="+Sent Items"
+set trash="+Deleted Items"
+set imap_check_subscribed
+unset imap_passive
+
+# Caching
+set header_cache = "~/Mail/Headers"
+set message_cachedir = "~/Mail/Messages"
+
+# IMAP config
+set imap_user=""
+set imap_pass=""
+
+#set folder="imaps://outlook.office365.com/"
+#set spoolfile="+Inbox"
+#set postponed="+Drafts"
+#set record="+Sent Items"
+#mailboxes
+
+set imap_check_subscribed="yes"
+set imap_list_subscribed="yes"
+#set timeout=15
+#set mail_check=90
+set imap_keepalive=180
+set imap_idle
+unset mark_old
+#set ssl_use_sslv3=yes
+#
+set smtp_url=""
+set rfc2047_parameters
+auto_view text/html
+set mailcap_path = ~/.config/mutt/mailcap
+alternative_order text/html multipart/related text/plain
+set auto_tag=yes
+#set ssl_usesystemcerts=yes
+set certificate_file=~/.config/mutt/certificates
+#set charset="iso-8859-1"
+set charset="utf-8"
+set send_charset="utf-8:iso-8859-1:iso-8859-15:us-ascii"
+#set file_charset="utf-8:iso-8859-1:iso-8859-15:us-ascii"
+#set send_charset="utf-8"
+set folder="imaps://outlook.office365.com"
+set mail_check=30
+set timeout=15
+set nomark_old
+set followup_to=yes
+set pager_stop
+#set hostname=dgc.se
+set hidden_host
+set from="fredrik.lonnegren@iver.se"
+#set sort=threads	# sorting the mails in threads
+set sort=date
+set sort_aux=date	# sorting the threads
+set mbox=+inbox
+set allow_8bit=yes
+set alias_file=~/.mutt/aliases.rc
+set quote_regexp="^( {0,4}[>|:%]| {0,4}[a-z0-9]+[>|]+)+"
+set query_command = "mutt_ldap_query.pl '%s'"
+bind index G imap-fetch-mail
+#
+ignore *
+unignore from date subject to cc
+unignore organization organisation x-mailer: x-newsreader: x-mailing-list:
+unignore posted-to:
+unignore Message-Id
+unignore Content-Type
+#
+#set editor="vi -c 'set formatoptions+=w' -c 'set tw=80'"
+#set editor="/usr/local/bin/nvi -c 'set co=80'"
+#set editor="/usr/local/bin/nvi -c 'set wl=80'"
+set editor="nvim -c 'set colorcolumn=72'"
+#
+unmy_hdr *
+my_hdr Organization: 
+my_hdr Reply-To: 
+my_hdr From: 
+my_hdr Return-Path: 
+#ignore *
+#unignore From From: To Cc Subject Date Reply-To X-Mailer User-Agent Bcc
+unhdr_order
+hdr_order From: To: Cc: Subject: Reply-To: Date:
+#
+# Mailing lists
+#
+# source ~/.mutt/lists.rc
+#
+# Colour
+#
+#color normal green black
+#
+######################################################################
+# colors definitions                                                 #
+######################################################################
+
+# color <where> <foreground> <background> [regexp]
+
+# normal : default color - white on black
+color normal		white		black
+color attachment	brightyellow	black
+color tilde		blue		black
+color markers		brightred	black
+color tree		red		black
+
+# some in-mail colors : quotes, signature
+color quoted		cyan		black
+color quoted1		green		black
+color quoted2		red		black
+color quoted3		yellow		black
+color quoted4		green		black
+
+color signature		cyan		black
+
+# various smilies and text formatting
+color body		brightgreen	black " [;:,][-=][\])>(<|]"
+color body		brightblue	black "(^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)" # *Bold* text.
+color body		brightblue	black "(^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)"     # _Underlined_ text.
+color body		brightblue	black "(^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)"     # /Italic/ text.
+color body	     	brightred 	black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
+color body	     	brightblue 	black (https?|ftp|news|telnet|finger|e2dk)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
+
+# status bar
+color status		brightyellow	blue
+
+# headers colors
+color hdrdefault	cyan		black
+color header     	brightblue	black ^From:
+color header	  	brightcyan	black ^To:
+color header	  	cyan		black ^Reply-To:
+color header		magenta		black ^Date:
+color header	  	brightcyan	black ^Cc:
+color header	  	brightgreen	black ^Subject:
+color header		brightblack	black ^X-Mailer:
+color header		brightblack	black ^User-Agent:
+
+
+# indicator colors
+color indicator  	brightyellow	blue
+color index		brightwhite	black "~N !~T !~F"			# regular new
+color index		red		black "~t debian-security-announce"	# security
+color index		brightred	black "~F"				# flagged
+color index		brightcyan	black "~T"				# tagged
+color index		brightblack	black "~D"				# deleted
+color index		cyan		black "~P"				# from me
+
+# girl(friend)s
+#color index       	yellow		black "~f greatyoda"
+#color index       	yellow		black "~f hortense.poss"
+#color index       	yellow		black "~f giang.thai-quyn"
+#
+### PGP ###################### 
+#set pgp_decode_command="gpg %?p?--passphrase-fd 0? --batch --output - %f"
+#set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
+#set pgp_decrypt_command="gpg --passphrase-fd 0 --batch --output - %f"
+#set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+#set pgp_clearsign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+#set pgp_encrypt_only_command="/usr/local/bin/pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt --textmode --armor --always-trust --encrypt-to FDE9D164 -- -r %r -- %f"
+#set pgp_encrypt_sign_command="/usr/local/bin/pgpewrap gpg --passphrase-fd 0 --batch --quiet --no-verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust --encrypt-to FDE9D164 -- -r %r -- %f"
+#set pgp_import_command="gpg --no-verbose --import -v %f"
+#set pgp_export_command="gpg --no-verbose --export --armor %r"
+#set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+#set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
+#set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+#set pgp_autosign=no
+#set pgp_sign_as=FDE9D164
+#set pgp_replyencrypt=yes
+#set pgp_timeout=1800
+#set pgp_good_sign="^gpg: Good signature from"
+
+
+macro index     .n      "<next-new-then-unread>" "Go to new mail"
+source ~/.config/mutt/gpg.rc

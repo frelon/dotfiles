@@ -1,0 +1,8 @@
+#text/html;	links %s; nametemplate=%s.html
+#text/html;	links -codepage %{charset} -dump %s; nametemplate=%s.html; copiousoutput
+#text/html;	links -codepage utf-8 -dump %s; nametemplate=%s.html; copiousoutput
+#text/html;	links -assume-codepage utf-8 -dump %s; nametemplate=%s.html; copiousoutput
+#text/html;	more test=
+text/html;	w3m -I %{charset} -O utf-8 -T text/html; copiousoutput;
+#text/plain;	w3m -I %{charset} -O utf-8 -T text/html; copiousoutput;
+image/*; ~/.config/mutt/muttimage.sh %s ; copiousoutput;
