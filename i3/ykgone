@@ -1,10 +1,5 @@
 #!/bin/bash
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 export XAUTHORITY=/home/$USER/.Xauthority
-if usb-devices | fgrep Vendor=1050; then
-  logger -p CRIT "Yubikey present"
-else
-  logger -p CRIT "Yubikey not present, locking"
-  export DISPLAY=":0"
-  /bin/su $USER -c "/home/$USER/.i3/scrlock.sh"
-fi
+export DISPLAY=":0"
+/bin/su $USER -c "/home/$USER/.i3/scrlock.sh"
