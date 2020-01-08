@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+/usr/bin/logger -p CRIT blur
+
 icon="$HOME/Pictures/icon.png"
 tmpbg='/tmp/screen.png'
 

@@ -1,5 +1,6 @@
-#/bin/sh
+#!/bin/bash
 # Glichting screen lock script by xzvf
+logger -p CRIT "Glitching screen"
 
 pngfile="/tmp/sclock.png"
 bmpfile="/tmp/sclock.bmp"
@@ -10,7 +11,6 @@ scrot -z $pngfile
 # convert to bmp and pixelate
 magick convert -rotate -90 $pngfile $bmpfile
 
-
 for a in {1,2,4,5,10}
 do
     # Glitch it with sox FROM: https://maryknize.com/blog/glitch_art_with_sox_imagemagick_and_vim/
@@ -19,12 +19,11 @@ do
     magick convert -scale $((100/(a)))% -scale $((100*(a)))% -rotate 90 $glitchedfile $bmpfile
 done
 
-
 # Add lock icon, pixelate and convert back to png
 magick convert -gravity center -font "Hack-Bold-Nerd-Font-Complete-Mono" \
     -pointsize 200 -draw "text 0,0 ''" -channel RGBA -fill '#bf616a' \
     $bmpfile $pngfile
 
-i3lock -e -u -i $pngfile
+i3lock -n -e -u -i $pngfile
 #feh $pngfile
 rm $pngfile $bmpfile $glitchedfile
