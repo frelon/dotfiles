@@ -1,0 +1,1 @@
+/home/frelon/.fzf/shell/key-bindings.fish
