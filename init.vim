@@ -7,6 +7,7 @@ Plug 'fatih/vim-go'
 
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }
 Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+Plug 'sebdah/vim-delve'
 
 Plug 'SirVer/ultisnips'
 Plug 'vim-airline/vim-airline'
@@ -37,12 +38,12 @@ tmap <C-j> <C-w>j
 tmap <C-k> <C-\><C-n><C-w>k
 tmap <C-l> <C-w>l
 
-
 " Split to terminal
 nmap <C-s>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
 
-" Escape terminal
-tmap <Esc> <C-\><C-n>:q<CR>
+" Close terminal
+" tmap <Esc> <C-\><C-n>:q<CR>
+tmap <Esc> <C-\><C-n>
 
 " --- Settings ---
 
@@ -50,6 +51,11 @@ let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
 
 let g:go_fmt_command="goimports"
+
+" Debug go (delve)
+
+nmap <F5> :DlvDebug<CR>
+nmap <F9> :DlvToggleBreakpoint<CR>
 
 " terraform
 
