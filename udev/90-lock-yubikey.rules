@@ -1,1 +1,0 @@
-SUBSYSTEM=="usb", ACTION=="remove", ENV{ID_MODEL_FROM_DATABASE}=="Yubikey 4 OTP+U2F+CCID", ENV{USER}="frelon", RUN+="/home/frelon/.i3/ykgone"
