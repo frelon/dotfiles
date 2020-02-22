@@ -45,12 +45,17 @@ nmap <C-s>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
 " tmap <Esc> <C-\><C-n>:q<CR>
 tmap <Esc> <C-\><C-n>
 
-" --- Settings ---
 
+" --- Settings ---
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
 
 let g:go_fmt_command="goimports"
+
+" Cursor
+set cursorline
+highlight CursorLineNr cterm=NONE ctermbg=2 ctermfg=8 gui=NONE guibg=NONE guifg=NONE
+highlight CursorLine cterm=NONE ctermbg=2 ctermfg=8 gui=NONE guibg=NONE guifg=NONE
 
 " Debug go (delve)
 
