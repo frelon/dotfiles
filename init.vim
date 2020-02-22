@@ -38,6 +38,9 @@ tmap <C-j> <C-w>j
 tmap <C-k> <C-\><C-n><C-w>k
 tmap <C-l> <C-w>l
 
+" Terminal
+autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
+
 " Split to terminal
 nmap <C-s>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
 
