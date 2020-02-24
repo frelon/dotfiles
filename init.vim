@@ -95,6 +95,8 @@ tmap <Esc> <C-\><C-n>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
 
+set mouse=a
+
 let g:go_fmt_command="goimports"
 
 " Cursor
