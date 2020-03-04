@@ -22,14 +22,12 @@ call plug#end()
 
 " Fold
 
-setlocal foldmethod=indent
+augroup folding
+  au BufReadPre *.go setlocal foldmethod=indent
+augroup END
 
 " NERD Tree
 nmap <C-n> :NERDTreeToggle<CR>
-
-" FZF
-nmap <C-o> :FZF<CR>
-nmap <C-f> :Lines<CR> 
 
 " Coc
 
@@ -62,6 +60,7 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
+let g:go_fmt_command="goimports"
 
 augroup autoformat
     autocmd!
@@ -71,38 +70,42 @@ augroup autoformat
 augroup END
 
 " Window management
-nmap <C-h> <C-w>h
+nmap <C-h> :tabp<CR>
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
+nmap <C-l> :tabn<CR>
 tmap <C-h> <C-w>h
 tmap <C-j> <C-w>j
 tmap <C-k> <C-\><C-n><C-w>k
 tmap <C-l> <C-w>l
 
+nmap td :tabclose<CR>
+nmap to :FZF<CR>
+nmap tt :split<CR><C-j>:resize 15<CR>:terminal<CR>i
+nmap tn :tabnew<CR>
+nmap <C-o> :FZF<CR>
+
+nmap <C-f> :Lines<CR> 
+nmap <C-a> ggVG
+
 " Terminal
 autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
 
-" Split to terminal
-nmap <C-s>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
-
 " Close terminal
-" tmap <Esc> <C-\><C-n>:q<CR>
 tmap <Esc> <C-\><C-n>
-
 
 " --- Settings ---
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
 
 set mouse=a
-
-let g:go_fmt_command="goimports"
+set nohlsearch
+set clipboard=unnamedplus
 
 " Cursor
 set cursorline
-highlight CursorLineNr cterm=NONE ctermbg=2 ctermfg=8 gui=NONE guibg=NONE guifg=NONE
-highlight CursorLine cterm=NONE ctermbg=2 ctermfg=8 gui=NONE guibg=NONE guifg=NONE
+highlight CursorLineNr cterm=NONE ctermbg=236 ctermfg=8 gui=NONE guibg=NONE guifg=NONE
+highlight CursorLine cterm=NONE ctermbg=236 ctermfg=NONE gui=NONE guibg=NONE guifg=NONE
 
 " Debug go (delve)
 
