@@ -108,6 +108,9 @@ set cursorline
 highlight CursorLineNr cterm=NONE ctermbg=236 ctermfg=8 gui=NONE guibg=NONE guifg=NONE
 highlight CursorLine cterm=NONE ctermbg=236 ctermfg=NONE gui=NONE guibg=NONE guifg=NONE
 
+" Comments and italics
+highlight Comment cterm=italic
+
 " Debug go (delve)
 
 nmap <F5> :DlvDebug<CR>
