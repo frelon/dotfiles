@@ -15,6 +15,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'hashivim/vim-terraform'
+Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
 
