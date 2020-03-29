@@ -130,7 +130,7 @@ set t_Co=256
 
 " add yaml stuffs
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab foldmethod=indent
 
 " add Jenkinsfile
 au! BufNewFile,BufReadPost Jenkinsfile set filetype=groovy
