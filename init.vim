@@ -1,9 +1,9 @@
+
+
+
 " --- Plugins ---
 
 call plug#begin('~/.config/nvim/plugged')
-
-Plug 'scrooloose/nerdTree'
-" Plug 'fatih/vim-go'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sebdah/vim-delve'
@@ -16,19 +16,25 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'hashivim/vim-terraform'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'machakann/vim-highlightedyank'
 
 call plug#end()
 
 " --- Keybindings ---
+
+let mapleader = ' '
+nmap <leader>w :w<CR>
+nmap <leader>q :q<CR>
+nmap <leader>v :vsplit $MYVIMRC<CR><C-w>L
+
+" Autosource $MYVIMRC
+autocmd bufwritepost init.vim source $MYVIMRC
 
 " Fold
 
 augroup folding
   au BufReadPre *.go setlocal foldmethod=indent
 augroup END
-
-" NERD Tree
-nmap <C-n> :NERDTreeToggle<CR>
 
 " Coc
 
@@ -46,8 +52,19 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Goto next/prev diagnostic
+nmap <leader>n <Plug>(coc-diagnostic-next)
+nmap <leader>p <Plug>(coc-diagnostic-prev)
 
 " Go
 
@@ -66,7 +83,6 @@ let g:go_fmt_command="goimports"
 augroup autoformat
     autocmd!
 
-    autocmd! BufWritePost * exec 'silent ![ -f "tags" ] && ctargs -R'
     autocmd! BufWritePre *.go call s:autoFormat(expand("<abuf>"), 'goimports -local "(go list -m)"', 'gofmt -s')
 augroup END
 
@@ -82,9 +98,9 @@ tmap <C-l> <C-w>l
 
 nmap td :tabclose<CR>
 nmap to :FZF<CR>
-nmap tt :split<CR><C-j>:resize 15<CR>:terminal<CR>i
+nmap <leader>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
 nmap tn :tabnew<CR>
-nmap <C-o> :FZF<CR>
+nmap <leader>o :FZF<CR>
 
 nmap <C-f> :Lines<CR> 
 nmap <C-a> ggVG
@@ -99,9 +115,12 @@ tmap <Esc> <C-\><C-n>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
 
+set hidden
 set mouse=a
 set nohlsearch
 set clipboard=unnamedplus
+set inccommand=nosplit
+set incsearch
 
 " Cursor
 set cursorline
@@ -113,8 +132,8 @@ highlight Comment cterm=italic
 
 " Debug go (delve)
 
-nmap <F5> :DlvDebug<CR>
-nmap <F9> :DlvToggleBreakpoint<CR>
+" nmap <leader>gd :DlvDebug<CR>
+" nmap <leader>gb :DlvToggleBreakpoint<CR>
 
 " terraform
 
