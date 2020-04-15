@@ -8,6 +8,7 @@
     "clementine": "music",
     "spotify": "spotify",
     "vlc": "play",
+    "zoom": "play",
     "signal": "comment",
     "_no_match": "question"
 }

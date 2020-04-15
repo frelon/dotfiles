@@ -87,20 +87,25 @@ augroup autoformat
 augroup END
 
 " Window management
-nmap <C-h> :tabp<CR>
+nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
-nmap <C-l> :tabn<CR>
+nmap <C-l> <C-w>l
 tmap <C-h> <C-w>h
 tmap <C-j> <C-w>j
 tmap <C-k> <C-\><C-n><C-w>k
 tmap <C-l> <C-w>l
+
+
+nmap <leader>tn :tabn<CR>
+nmap <leader>tp :tabp<CR>
 
 nmap td :tabclose<CR>
 nmap to :FZF<CR>
 nmap <leader>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
 nmap tn :tabnew<CR>
 nmap <leader>o :FZF<CR>
+nmap <leader>s :vsplit<CR>
 
 nmap <C-f> :Lines<CR> 
 nmap <C-a> ggVG
