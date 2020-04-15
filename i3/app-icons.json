@@ -1,0 +1,13 @@
+{
+    "firefox": "firefox",
+    "chromium-browser": "chrome",
+    "qutebrowser": "chrome",
+    "st-256color": "terminal",
+    "jetbrains-idea-ce": "edit",
+    "nautilus": "folder-open",
+    "clementine": "music",
+    "spotify": "spotify",
+    "vlc": "play",
+    "signal": "comment",
+    "_no_match": "question"
+}
