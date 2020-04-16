@@ -25,7 +25,7 @@ call plug#end()
 let mapleader = ' '
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
-nmap <leader>v :vsplit $MYVIMRC<CR><C-w>L
+nmap <leader>v :vsplit $MYVIMRC<CR>
 
 " Autosource $MYVIMRC
 autocmd bufwritepost init.vim source $MYVIMRC
@@ -126,6 +126,8 @@ set nohlsearch
 set clipboard=unnamedplus
 set inccommand=nosplit
 set incsearch
+set splitbelow
+set splitright
 
 " Cursor
 set cursorline
