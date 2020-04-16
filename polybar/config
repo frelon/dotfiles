@@ -57,7 +57,7 @@ font-2 = Font Awesome 5 Free:style=Solid:pixelsize=12;2
 font-3 = Font Awesome 5 Brands:style=Regular:pixelsize=12;2
 
 modules-left = i3
-modules-right = filesystem pulseaudio memory cpu wlan eth battery temperature date
+modules-right = filesystem pulseaudio memory cpu wlan eth via-vpn battery temperature date
 
 tray-position = right
 tray-padding = 2
@@ -114,31 +114,28 @@ fuzzy-match = true
 pin-workspaces = true
 strip-wsnumbers = true
 
-; Only show workspaces on the same output as the bar
-;pin-workspaces = true
-
 label-mode-padding = 2
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %index%
+label-focused = %name%
 label-focused-background = ${colors.background-alt}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
+label-unfocused = %name%
 label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index%
+label-visible = %name%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %index%
+label-urgent = %name%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
@@ -166,7 +163,7 @@ type = internal/network
 interface = wlp0s20f3
 interval = 3.0
 
-format-connected-prefix = "WLAN "
+format-connected-prefix = "WIFI "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 format-connected = <label-connected>
 format-connected-underline = #9f78e1
@@ -177,13 +174,6 @@ format-disconnected =
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
-
-;ramp-signal-0 = 
-;ramp-signal-1 = 
-;ramp-signal-2 = 
-;ramp-signal-3 = 
-;ramp-signal-4 = 
-;ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
@@ -196,10 +186,18 @@ format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
 format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+
+[module/via-vpn]
+type = internal/network
+interface = via_vpn
+interval = 3.0
+
+format-connected-underline = #55aa55
+format-connected-prefix = "VIA "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
 
 [module/date]
 type = internal/date
@@ -246,32 +244,8 @@ battery = BAT0
 adapter = ADP1
 full-at = 98
 
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
-
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
-
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
-
-;ramp-capacity-0 = 
-;ramp-capacity-1 = 
-;ramp-capacity-2 = 
-;ramp-capacity-foreground = ${colors.foreground-alt}
-;
-;animation-charging-0 = 
-;animation-charging-1 = 
-;animation-charging-2 = 
-;animation-charging-foreground = ${colors.foreground-alt}
-;animation-charging-framerate = 750
-;
-;animation-discharging-0 = 
-;animation-discharging-1 = 
-;animation-discharging-2 = 
-;animation-discharging-foreground = ${colors.foreground-alt}
-;animation-discharging-framerate = 750
+format-prefix = "POW "
+format-prefix-foreground = ${colors.foreground-alt}
 
 [module/temperature]
 type = internal/temperature
