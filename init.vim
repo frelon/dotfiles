@@ -8,13 +8,12 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sebdah/vim-delve'
 
-Plug 'SirVer/ultisnips'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'hashivim/vim-terraform'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 
@@ -26,17 +25,34 @@ let mapleader = ' '
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
 nmap <leader>v :vsplit $MYVIMRC<CR>
+nmap <leader>b :Buffers<CR>
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gb :Gblame<CR>
+nmap <leader>h :Helptags<CR>
 
 " Autosource $MYVIMRC
 autocmd bufwritepost init.vim source $MYVIMRC
 
 " Fold
 
-augroup folding
-  au BufReadPre *.go setlocal foldmethod=indent
-augroup END
+" augroup folding
+"   au BufReadPre *.go setlocal foldmethod=indent
+" augroup END
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " Coc
+
+" format selection
+nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>f  <Plug>(coc-format-selected)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:OR` command to organize imports 
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -66,6 +82,23 @@ nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>n <Plug>(coc-diagnostic-next)
 nmap <leader>p <Plug>(coc-diagnostic-prev)
 
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Show documentation K
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 " Go
 
 let g:go_def_mapping_enabled = 0
@@ -83,8 +116,13 @@ let g:go_fmt_command="goimports"
 augroup autoformat
     autocmd!
 
-    autocmd! BufWritePre *.go call s:autoFormat(expand("<abuf>"), 'goimports -local "(go list -m)"', 'gofmt -s')
+    autocmd! BufWritePre *.go call s:autoformat()
 augroup END
+
+function s:autoformat()
+    call CocAction("format")
+    call CocAction('runCommand', 'editor.action.organizeImport')
+endfunction
 
 " Window management
 nmap <C-h> <C-w>h
@@ -117,9 +155,6 @@ autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
 tmap <Esc> <C-\><C-n>
 
 " --- Settings ---
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.git$']
-
 set hidden
 set mouse=a
 set nohlsearch
@@ -128,6 +163,12 @@ set inccommand=nosplit
 set incsearch
 set splitbelow
 set splitright
+set number
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set t_Co=256
+set signcolumn=yes
 
 " Cursor
 set cursorline
@@ -136,27 +177,6 @@ highlight CursorLine cterm=NONE ctermbg=236 ctermfg=NONE gui=NONE guibg=NONE gui
 
 " Comments and italics
 highlight Comment cterm=italic
-
-" Debug go (delve)
-
-" nmap <leader>gd :DlvDebug<CR>
-" nmap <leader>gb :DlvToggleBreakpoint<CR>
-
-" terraform
-
-let g:terraform_fmt_on_save=1
-
-let g:deoplete#enable_at_startup = 1
-" let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-" Close preview window
-set completeopt-=preview
-
-set number
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set t_Co=256
 
 " add yaml stuffs
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
@@ -174,35 +194,3 @@ augroup fzf_hide_statusline
 augroup END
 
 
-" autoformat current buffer
-function! s:autoFormat(bufnr_str, ...)
-        let l:view = winsaveview()
-        let l:bufnr = str2nr(a:bufnr_str)
-        let l:col = col('.')
-
-        let l:result = nvim_buf_get_lines(l:bufnr, 0, line('$'), 0)
-
-        if len(l:result) == 0
-            return
-        endif
-
-        for formatter in a:000
-            let l:result = systemlist(formatter . ' 2> /tmp/vim.log', l:result)
-        endfor
-
-        if len(l:result) == 0
-            return
-        endif
-
-        let l:offset = len(l:result) - line('$')
-
-        call nvim_buf_set_lines(l:bufnr, 0, line('$'), 0, l:result)
-
-        call winrestview(l:view)
-
-        if l:bufnr != bufnr()
-            return
-        endif
-
-        call cursor(line('.') + l:offset, l:col)
-    endfunction
