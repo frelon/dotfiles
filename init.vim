@@ -48,12 +48,6 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 nmap <leader>f  <Plug>(coc-format-selected)
 xmap <leader>f  <Plug>(coc-format-selected)
 
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:OR` command to organize imports 
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -116,13 +110,8 @@ let g:go_fmt_command="goimports"
 augroup autoformat
     autocmd!
 
-    autocmd! BufWritePre *.go call s:autoformat()
+    autocmd! BufWritePre *.go call CocAction("format") | call CocAction('runCommand', 'editor.action.organizeImport')
 augroup END
-
-function s:autoformat()
-    call CocAction("format")
-    call CocAction('runCommand', 'editor.action.organizeImport')
-endfunction
 
 " Window management
 nmap <C-h> <C-w>h
