@@ -29,18 +29,25 @@ nmap <leader>b :Buffers<CR>
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gb :Gblame<CR>
 nmap <leader>h :Helptags<CR>
+nmap <leader>r :History:<CR>
+nmap <leader>c :copen<CR>
+nmap <leader>mi :Make image<CR>
+nmap <leader>ml :Make lint<CR>
+nmap <leader>mt :Make test<CR>
+nmap <leader>e :Explore<CR>
+nmap <leader>yp :let @+ = expand("%")<CR>
+
+nmap <C-n> :cnext<CR>
+nmap <C-p> :cprev<CR>
 
 " Autosource $MYVIMRC
 autocmd bufwritepost init.vim source $MYVIMRC
 
 " Fold
 
-" augroup folding
-"   au BufReadPre *.go setlocal foldmethod=indent
-" augroup END
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call CocAction('fold', <f-args>)
+augroup folding
+  au BufReadPre *.go setlocal foldmethod=indent
+augroup END
 
 " Coc
 
@@ -182,4 +189,27 @@ augroup fzf_hide_statusline
                 \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 
+" Using the custom window creation function
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
+" Function to create the custom floating window
+function! FloatingFZF()
+    let buf = nvim_create_buf(v:false, v:true)
+
+    let height = 20
+    let width = float2nr(winwidth(0) * 0.6)
+    let horizontal = float2nr((winwidth(0) - width) / 2)
+    let vertical = 3
+
+    let opts = {
+                \ 'relative': 'win',
+                \ 'row': vertical,
+                \ 'col': horizontal,
+                \ 'width': width,
+                \ 'height': height,
+                \ 'style': 'minimal'
+                \ }
+
+    " open the new window, floating, and enter to it
+    call nvim_open_win(buf, v:true, opts)
+endfunction
