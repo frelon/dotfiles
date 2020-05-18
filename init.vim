@@ -13,6 +13,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
@@ -165,11 +166,12 @@ set shiftwidth=4
 set expandtab
 set t_Co=256
 set signcolumn=yes
+set termguicolors
 
 " Cursor
 set cursorline
-highlight CursorLineNr cterm=NONE ctermbg=236 ctermfg=8 gui=NONE guibg=NONE guifg=NONE
-highlight CursorLine cterm=NONE ctermbg=236 ctermfg=NONE gui=NONE guibg=NONE guifg=NONE
+" highlight CursorLineNr cterm=NONE ctermbg=236 ctermfg=8 gui=NONE guibg=Gray guifg=NONE
+" highlight CursorLine cterm=NONE ctermbg=236 ctermfg=NONE gui=NONE guibg=Gray guifg=NONE
 
 " Comments and italics
 highlight Comment cterm=italic
@@ -213,3 +215,7 @@ function! FloatingFZF()
     " open the new window, floating, and enter to it
     call nvim_open_win(buf, v:true, opts)
 endfunction
+
+" Colorizer
+lua require'colorizer'.setup()
+

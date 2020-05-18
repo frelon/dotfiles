@@ -1,5 +1,8 @@
-
-
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 " --- Plugins ---
 
@@ -7,14 +10,13 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sebdah/vim-delve'
-
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
+Plug 'janko/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'norcalli/nvim-colorizer.lua'
-
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 
@@ -25,6 +27,8 @@ call plug#end()
 let mapleader = ' '
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
+nmap <leader>x :x<CR>
+nmap <leader>f :grep 
 nmap <leader>v :vsplit $MYVIMRC<CR>
 nmap <leader>b :Buffers<CR>
 nmap <leader>gs :Gstatus<CR>
@@ -37,6 +41,8 @@ nmap <leader>ml :Make lint<CR>
 nmap <leader>mt :Make test<CR>
 nmap <leader>e :Explore<CR>
 nmap <leader>yp :let @+ = expand("%")<CR>
+nmap <leader>tf :TestNearest<CR>
+nmap <leader>cc :!go test -coverprofile c.out ./...; go tool cover -html c.out && rm c.out<CR>
 
 nmap <C-n> :cnext<CR>
 nmap <C-p> :cprev<CR>
@@ -51,10 +57,6 @@ augroup folding
 augroup END
 
 " Coc
-
-" format selection
-nmap <leader>f  <Plug>(coc-format-selected)
-xmap <leader>f  <Plug>(coc-format-selected)
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -152,6 +154,7 @@ autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
 tmap <Esc> <C-\><C-n>
 
 " --- Settings ---
+set grepprg=rg\ --vimgrep
 set hidden
 set mouse=a
 set nohlsearch
@@ -166,12 +169,12 @@ set shiftwidth=4
 set expandtab
 set t_Co=256
 set signcolumn=yes
-set termguicolors
+set ignorecase
 
-" Cursor
+" Colors
+set termguicolors
 set cursorline
-" highlight CursorLineNr cterm=NONE ctermbg=236 ctermfg=8 gui=NONE guibg=Gray guifg=NONE
-" highlight CursorLine cterm=NONE ctermbg=236 ctermfg=NONE gui=NONE guibg=Gray guifg=NONE
+colorscheme simple-dark
 
 " Comments and italics
 highlight Comment cterm=italic
@@ -190,6 +193,8 @@ augroup fzf_hide_statusline
     autocmd  FileType fzf set laststatus=0 noshowmode noruler
                 \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
+
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 " Using the custom window creation function
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
@@ -218,4 +223,5 @@ endfunction
 
 " Colorizer
 lua require'colorizer'.setup()
+
 
