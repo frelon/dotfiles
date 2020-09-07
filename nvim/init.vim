@@ -19,6 +19,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'SirVer/ultisnips'
 
 call plug#end()
 
@@ -28,33 +30,42 @@ let mapleader = ' '
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
 nmap <leader>x :x<CR>
+nmap <leader>d :windo diffthis<CR>
 nmap <leader>f :grep 
 nmap <leader>v :vsplit $MYVIMRC<CR>
 nmap <leader>b :Buffers<CR>
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gb :Gblame<CR>
+nmap <leader>gl :Gclog<CR>
 nmap <leader>h :Helptags<CR>
-nmap <leader>r :History:<CR>
+nmap <leader>rs :!rm .stamp/*<CR>
 nmap <leader>c :copen<CR>
-nmap <leader>mi :Make image<CR>
-nmap <leader>ml :Make lint<CR>
-nmap <leader>mt :Make test<CR>
+nmap <leader>mi :make ECR_TAG=local image tag<CR>
+nmap <leader>ml :make GOLANGCI_FLAGS="--color=never" lint<CR>
+nmap <leader>mt :make test<CR>
 nmap <leader>e :Explore<CR>
 nmap <leader>yp :let @+ = expand("%")<CR>
-nmap <leader>tf :TestNearest<CR>
-nmap <leader>cc :!go test -coverprofile c.out ./...; go tool cover -html c.out && rm c.out<CR>
+nmap <leader>tf :TestNearest -v<CR>
+nmap <leader>tl :TestLast<CR>
+nmap <leader>gc :!go test -coverprofile c.out ./...; go tool cover -html c.out && rm c.out<CR>
 
 nmap <C-n> :cnext<CR>
 nmap <C-p> :cprev<CR>
+
+nmap <leader>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
+nmap <leader>o :FZF<CR>
+nmap <leader>s :vnew<CR>
+nmap <C-a> ggVG
+map Y y$
 
 " Autosource $MYVIMRC
 autocmd bufwritepost init.vim source $MYVIMRC
 
 " Fold
 
-augroup folding
-  au BufReadPre *.go setlocal foldmethod=indent
-augroup END
+" augroup folding
+"   au BufReadPre *.go setlocal foldmethod=indent
+" augroup END
 
 " Coc
 
@@ -105,47 +116,11 @@ endfunction
 
 " Go
 
-let g:go_def_mapping_enabled = 0
-let g:go_fmt_autosave = 0
-let g:go_mod_fmt_autosave = 1
-let g:go_asmfmt_autosave = 0
-let g:go_metalinter_autosave = 0
-let g:go_code_completion_enabled = 0
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_fmt_command="goimports"
-
 augroup autoformat
     autocmd!
 
     autocmd! BufWritePre *.go call CocAction("format") | call CocAction('runCommand', 'editor.action.organizeImport')
 augroup END
-
-" Window management
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
-tmap <C-h> <C-w>h
-tmap <C-j> <C-w>j
-tmap <C-k> <C-\><C-n><C-w>k
-tmap <C-l> <C-w>l
-
-
-nmap <leader>tn :tabn<CR>
-nmap <leader>tp :tabp<CR>
-
-nmap td :tabclose<CR>
-nmap to :FZF<CR>
-nmap <leader>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
-nmap tn :tabnew<CR>
-nmap <leader>o :FZF<CR>
-nmap <leader>s :vsplit<CR>
-
-nmap <C-f> :Lines<CR> 
-nmap <C-a> ggVG
 
 " Terminal
 autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
@@ -157,7 +132,7 @@ tmap <Esc> <C-\><C-n>
 set grepprg=rg\ --vimgrep
 set hidden
 set mouse=a
-set nohlsearch
+set hlsearch
 set clipboard=unnamedplus
 set inccommand=nosplit
 set incsearch
