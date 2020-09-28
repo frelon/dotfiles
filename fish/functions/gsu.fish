@@ -1,4 +1,4 @@
-# Defined in /tmp/fish.ID3NFg/gsu.fish @ line 1
+# Defined in /tmp/fish.06Pe2t/gsu.fish @ line 2
 function gsu
-    git submodule update
+    git submodule update $argv;
 end
