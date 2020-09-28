@@ -21,6 +21,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips'
+Plug 'vim-utils/vim-man'
 
 call plug#end()
 
