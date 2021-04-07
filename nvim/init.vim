@@ -9,80 +9,68 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sebdah/vim-delve'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
 Plug 'janko/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips'
-Plug 'vim-utils/vim-man'
+Plug 'akarl/autoformat.nvim'
+Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
 " --- Keybindings ---
 
 let mapleader = ' '
-nmap <leader>w :w<CR>
-nmap <leader>q :q<CR>
-nmap <leader>x :x<CR>
-nmap <leader>d :windo diffthis<CR>
-nmap <leader>f :grep 
-nmap <leader>v :vsplit $MYVIMRC<CR>
-nmap <leader>b :Buffers<CR>
-nmap <leader>gs :Gstatus<CR>
-nmap <leader>gb :Gblame<CR>
-nmap <leader>gl :Gclog<CR>
-nmap <leader>h :Helptags<CR>
-nmap <leader>rs :!rm .stamp/*<CR>
-nmap <leader>c :copen<CR>
-nmap <leader>mi :make ECR_TAG=local image tag<CR>
-nmap <leader>ml :make GOLANGCI_FLAGS="--color=never" lint<CR>
-nmap <leader>mt :make test<CR>
-nmap <leader>e :Explore<CR>
-nmap <leader>yp :let @+ = expand("%")<CR>
-nmap <leader>tf :TestNearest -v<CR>
-nmap <leader>tl :TestLast<CR>
-nmap <leader>gc :!go test -coverprofile c.out ./...; go tool cover -html c.out && rm c.out<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>d :windo diffthis<CR>
+nnoremap <leader>v :vsplit $MYVIMRC<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gl :Gclog<CR>
+nnoremap <leader>ga :Git add .<CR>
+nnoremap <leader>gcc :Gcommit -m ""<Left>
+nnoremap <leader>gco :Git checkout -b 
+nnoremap <leader>gca :Git commit --amend --no-edit<CR><CR>
+nnoremap <leader>gpp :Git push<CR>
+nnoremap <leader>gpf :Git push --force-with-lease<CR>
+nnoremap <leader>h :Helptags<CR>
+nnoremap <leader>rs :!rm .stamp/*<CR>
+nnoremap <leader>c :copen<CR>
+nnoremap <leader>mi :Make ECR_TAG=local image tag<CR>
+nnoremap <leader>mt :Make test<CR>
+nnoremap <leader>mg :Make generate<CR>
+nnoremap <leader>ml :call GolangCILint()<CR>
+nnoremap <leader>e :Explore<CR>
+nnoremap <leader>yp :let @+ = expand("%")<CR>
+nnoremap <leader>tf :TestNearest -strategy=neovim -v<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>ts :TestSuite<CR>
+nnoremap <leader>gtc :!go test -coverprofile c.out ./...; go tool cover -html c.out && rm c.out<CR>
 
-nmap <C-n> :cnext<CR>
-nmap <C-p> :cprev<CR>
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-p> :cprev<CR>
 
-nmap <leader>t :split<CR><C-j>:resize 15<CR>:terminal<CR>i
-nmap <leader>o :FZF<CR>
-nmap <leader>s :vnew<CR>
-nmap <C-a> ggVG
+nnoremap <leader>o :FZF<CR>
+nnoremap <leader>s :vnew<CR>
 map Y y$
+
+" Align GitHub-flavored Markdown tables
+au FileType markdown vmap <Leader>f :EasyAlign*<Bar><Enter>
 
 " Autosource $MYVIMRC
 autocmd bufwritepost init.vim source $MYVIMRC
 
-" Fold
-
-" augroup folding
-"   au BufReadPre *.go setlocal foldmethod=indent
-" augroup END
-
 " Coc
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 " Introduce function text object
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -116,12 +104,12 @@ function! s:show_documentation()
 endfunction
 
 " Go
-
-augroup autoformat
-    autocmd!
-
-    autocmd! BufWritePre *.go call CocAction("format") | call CocAction('runCommand', 'editor.action.organizeImport')
-augroup END
+"
+" Autoformat settings
+" use bash as shell... TODO
+set shell=/usr/bin/bash
+call autoformat#config('go', ['goimports -local "$(go list -m)"', 'gofumpt -s -extra'])
+autocmd! BufWritePre * :Autoformat
 
 " Terminal
 autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
@@ -153,7 +141,7 @@ set cursorline
 colorscheme simple-dark
 
 " Comments and italics
-highlight Comment cterm=italic
+highlight Comment gui=italic
 
 " add yaml stuffs
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
@@ -200,4 +188,23 @@ endfunction
 " Colorizer
 lua require'colorizer'.setup()
 
+" Golang Linting
+	" GolangCILint lints the project from the current directory and puts the
+	" result inside the quickfix list.
+	function! GolangCILint()
+		cexpr []
 
+		" Run only the typecheck first.
+		let l:errors = system("golangci-lint run --no-config --disable-all -E typecheck --out-format line-number --print-issued-lines=false")
+
+		if l:errors == ""
+			let l:errors = system("golangci-lint run --out-format line-number --print-issued-lines=false")
+		endif
+
+		if l:errors == ""
+			echo "GolangCILint: OK!"
+		else
+			cexpr l:errors
+			copen
+		endif
+	endfunction
