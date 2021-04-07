@@ -10,5 +10,6 @@
     "vlc": "play",
     "zoom": "play",
     "signal": "comment",
+    "Slack": "comment",
     "_no_match": "question"
 }
