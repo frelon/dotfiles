@@ -205,6 +205,7 @@ function! DebugCurrentTest()
 
     let testname = split(getline(test_start_line)[5:], '(')[0]
 
+    echo "Running " . testname
     call vimspector#LaunchWithSettings(#{configuration: "test", TestName: testname})
 
     call cursor(start_cursor_pos[1:])
