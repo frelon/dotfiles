@@ -79,7 +79,7 @@ nnoremap <leader>h <cmd>Telescope help_tags<cr>
 " Vimspector mappings
 let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
 nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
-nnoremap <leader>dt :call vimspector#LaunchWithSettings( #{ configuration: 'test' })<CR>
+nnoremap <leader>dt :call DebugCurrentTest()<CR>
 nnoremap <leader>dd :call vimspector#Continue()<CR>
 nnoremap <leader>dcb :call vimspector#ClearBreakpoints()<CR>
 nnoremap <leader>dr :call vimspector#Reset()<CR>
@@ -192,4 +192,20 @@ function! GolangCILint()
         cexpr l:errors
         copen
     endif
+endfunction
+
+" Start debug session using vimspector on the current test.
+function! DebugCurrentTest()
+    let start_cursor_pos = getcurpos()
+    let test_start_line = search('func Test', 'b')
+    if test_start_line == 0
+        echo "No test found"
+        return
+    endif
+
+    let testname = split(getline(test_start_line)[5:], '(')[0]
+
+    call vimspector#LaunchWithSettings(#{configuration: "test", TestName: testname})
+
+    call cursor(start_cursor_pos[1:])
 endfunction
