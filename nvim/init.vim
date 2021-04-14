@@ -14,8 +14,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'janko/vim-test'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
@@ -24,6 +22,14 @@ Plug 'SirVer/ultisnips'
 Plug 'akarl/autoformat.nvim'
 Plug 'leafgarland/typescript-vim'
 
+" telescope
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+" Debug
+Plug 'puremourning/vimspector'
+
 call plug#end()
 
 " --- Keybindings ---
@@ -31,7 +37,7 @@ call plug#end()
 let mapleader = ' '
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-nnoremap <leader>d :windo diffthis<CR>
+" nnoremap <leader>d :windo diffthis<CR>
 nnoremap <leader>v :vsplit $MYVIMRC<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>gs :Gstatus<CR>
@@ -43,7 +49,7 @@ nnoremap <leader>gco :Git checkout -b
 nnoremap <leader>gca :Git commit --amend --no-edit<CR><CR>
 nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpf :Git push --force-with-lease<CR>
-nnoremap <leader>h :Helptags<CR>
+" nnoremap <leader>h :Helptags<CR>
 nnoremap <leader>rs :!rm .stamp/*<CR>
 nnoremap <leader>c :copen<CR>
 nnoremap <leader>mi :Make ECR_TAG=local image tag<CR>
@@ -60,15 +66,29 @@ nnoremap <leader>gtc :!go test -coverprofile c.out ./...; go tool cover -html c.
 nnoremap <C-n> :cnext<CR>
 nnoremap <C-p> :cprev<CR>
 
-nnoremap <leader>o :FZF<CR>
+"nnoremap <leader>o :FZF<CR>
 nnoremap <leader>s :vnew<CR>
 map Y y$
 
+" Telescope mappings
+nnoremap <leader>o <cmd>Telescope find_files<cr>
+nnoremap <leader>f <cmd>Telescope live_grep<cr>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
+nnoremap <leader>h <cmd>Telescope help_tags<cr>
+
+" Vimspector mappings
+let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
+nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <leader>dt :call vimspector#LaunchWithSettings( #{ configuration: 'test' })<CR>
+nnoremap <leader>dd :call vimspector#Continue()<CR>
+nnoremap <leader>dcb :call vimspector#ClearBreakpoints()<CR>
+nnoremap <leader>dr :call vimspector#Reset()<CR>
+nnoremap <leader>dj :call vimspector#StepOver()<CR>
+nnoremap <leader>dl :call vimspector#StepInto()<CR>
+nnoremap <leader>dk :call vimspector#StepOut()<CR>
+
 " Align GitHub-flavored Markdown tables
 au FileType markdown vmap <Leader>f :EasyAlign*<Bar><Enter>
-
-" Autosource $MYVIMRC
-autocmd bufwritepost init.vim source $MYVIMRC
 
 " Coc
 
@@ -134,6 +154,7 @@ set expandtab
 set t_Co=256
 set signcolumn=yes
 set ignorecase
+set noswapfile
 
 " Colors
 set termguicolors
@@ -150,61 +171,25 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab foldmethod=indent
 " add Jenkinsfile
 au! BufNewFile,BufReadPost Jenkinsfile set filetype=groovy
 
-" Hide status line when open fzf window
-augroup fzf_hide_statusline
-    autocmd!
-    autocmd! FileType fzf
-    autocmd  FileType fzf set laststatus=0 noshowmode noruler
-                \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-augroup END
-
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
-
-" Using the custom window creation function
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-" Function to create the custom floating window
-function! FloatingFZF()
-    let buf = nvim_create_buf(v:false, v:true)
-
-    let height = 20
-    let width = float2nr(winwidth(0) * 0.6)
-    let horizontal = float2nr((winwidth(0) - width) / 2)
-    let vertical = 3
-
-    let opts = {
-                \ 'relative': 'win',
-                \ 'row': vertical,
-                \ 'col': horizontal,
-                \ 'width': width,
-                \ 'height': height,
-                \ 'style': 'minimal'
-                \ }
-
-    " open the new window, floating, and enter to it
-    call nvim_open_win(buf, v:true, opts)
-endfunction
-
 " Colorizer
 lua require'colorizer'.setup()
 
-" Golang Linting
-	" GolangCILint lints the project from the current directory and puts the
-	" result inside the quickfix list.
-	function! GolangCILint()
-		cexpr []
+" GolangCILint lints the project from the current directory and puts the
+" result inside the quickfix list.
+function! GolangCILint()
+    cexpr []
 
-		" Run only the typecheck first.
-		let l:errors = system("golangci-lint run --no-config --disable-all -E typecheck --out-format line-number --print-issued-lines=false")
+    " Run only the typecheck first.
+    let l:errors = system("golangci-lint run --no-config --disable-all -E typecheck --out-format line-number --print-issued-lines=false")
 
-		if l:errors == ""
-			let l:errors = system("golangci-lint run --out-format line-number --print-issued-lines=false")
-		endif
+    if l:errors == ""
+        let l:errors = system("golangci-lint run --out-format line-number --print-issued-lines=false")
+    endif
 
-		if l:errors == ""
-			echo "GolangCILint: OK!"
-		else
-			cexpr l:errors
-			copen
-		endif
-	endfunction
+    if l:errors == ""
+        echo "GolangCILint: OK!"
+    else
+        cexpr l:errors
+        copen
+    endif
+endfunction
