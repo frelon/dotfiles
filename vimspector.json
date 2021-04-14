@@ -12,10 +12,11 @@
     "test": {
       "adapter": "vscode-go",
       "configuration": {
+        "dlvToolPath": "$HOME/go/bin/dlv",
         "request": "launch",
-        "program": "${fileDirname}",
+        "program": "${workspaceFolder}",
         "mode": "test",
-        "dlvToolPath": "$HOME/go/bin/dlv"
+        "args": ["-test.run", "${TestName}"]
       }
     }
 
