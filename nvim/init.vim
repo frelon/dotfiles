@@ -17,6 +17,7 @@ Plug 'janko/vim-test'
 Plug 'junegunn/vim-easy-align'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
+Plug 'psliwka/vim-smoothie'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'SirVer/ultisnips'
 Plug 'akarl/autoformat.nvim'
@@ -40,7 +41,7 @@ nnoremap <leader>q :q<CR>
 " nnoremap <leader>d :windo diffthis<CR>
 nnoremap <leader>v :vsplit $MYVIMRC<CR>
 nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gl :Gclog<CR>
 nnoremap <leader>ga :Git add .<CR>
@@ -65,6 +66,9 @@ nnoremap <leader>gtc :!go test -coverprofile c.out ./...; go tool cover -html c.
 
 nnoremap <C-n> :cnext<CR>
 nnoremap <C-p> :cprev<CR>
+
+nnoremap <C-j> ddp
+nnoremap <C-k> ddkkp
 
 "nnoremap <leader>o :FZF<CR>
 nnoremap <leader>s :vnew<CR>
@@ -166,7 +170,7 @@ highlight Comment gui=italic
 
 " add yaml stuffs
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " add Jenkinsfile
 au! BufNewFile,BufReadPost Jenkinsfile set filetype=groovy
