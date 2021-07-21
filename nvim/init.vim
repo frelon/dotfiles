@@ -118,8 +118,6 @@ set hlsearch
 set clipboard=unnamedplus
 set inccommand=nosplit
 set incsearch
-set splitbelow
-set splitright
 set number
 set tabstop=4
 set shiftwidth=4
