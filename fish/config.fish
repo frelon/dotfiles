@@ -1,6 +1,7 @@
 set -x EDITOR 'nvim'
 set -x GOPATH '/home/frelon/go'
 set -x PATH $PATH $GOPATH/bin '/home/frelon/.local/bin'
+set -x PATH $PATH '/home/frelon/.cargo/bin'
 set -x PATH $PATH /usr/local/go/bin
 
 set -x GO111MODULE on
