@@ -29,6 +29,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'ThePrimeagen/refactoring.nvim'
 
 " Debug
 Plug 'puremourning/vimspector'
@@ -40,11 +41,10 @@ call plug#end()
 let mapleader = ' '
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-" nnoremap <leader>d :windo diffthis<CR>
 nnoremap <leader>v :vsplit $MYVIMRC<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>gs :Git<CR>
-nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gl :Gclog<CR>
 nnoremap <leader>ga :Git add .<CR>
 nnoremap <leader>gcc :Gcommit -m ""<Left>
@@ -52,7 +52,6 @@ nnoremap <leader>gco :Git checkout -b
 nnoremap <leader>gca :Git commit --amend --no-edit<CR><CR>
 nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpf :Git push --force-with-lease<CR>
-" nnoremap <leader>h :Helptags<CR>
 nnoremap <leader>rs :!rm .stamp/*<CR>
 nnoremap <leader>c :copen<CR>
 nnoremap <leader>mi :Make ECR_TAG=local image tag<CR>
@@ -69,12 +68,12 @@ nnoremap <leader>gtc :!go test -coverprofile c.out ./...; go tool cover -html c.
 nnoremap <C-n> :cnext<CR>
 nnoremap <C-p> :cprev<CR>
 
-nnoremap <C-j> ddp
-nnoremap <C-k> ddkkp
-
-"nnoremap <leader>o :FZF<CR>
 nnoremap <leader>s :vnew<CR>
+
 map Y y$
+
+nnoremap <C-j> :m +1<CR>
+nnoremap <C-k> :m -2<CR>
 
 " Telescope mappings
 nnoremap <leader>o <cmd>Telescope find_files<cr>
@@ -94,7 +93,7 @@ nnoremap <leader>dl :call vimspector#StepInto()<CR>
 nnoremap <leader>dk :call vimspector#StepOut()<CR>
 
 " Align GitHub-flavored Markdown tables
-au FileType markdown vmap <Leader>f :EasyAlign*<Bar><Enter>
+au FileType markdown vmap <leader>f :EasyAlign*<Bar><Enter>
 
 " Go
 "
@@ -200,7 +199,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  --buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -227,4 +226,7 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+local nvim_refactor = require('config')
+
 EOF
