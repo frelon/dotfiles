@@ -18,7 +18,6 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 Plug 'psliwka/vim-smoothie'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'SirVer/ultisnips'
 Plug 'akarl/autoformat.nvim'
 Plug 'leafgarland/typescript-vim'
 
@@ -85,6 +84,8 @@ nnoremap <leader>h <cmd>Telescope help_tags<cr>
 
 " Vimspector mappings
 let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
+let g:vimspector_enable_mappings = 'HUMAN'
+
 nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
 nnoremap <leader>dt :call DebugCurrentTest()<CR>
 nnoremap <leader>dd :call vimspector#Continue()<CR>
@@ -217,7 +218,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
