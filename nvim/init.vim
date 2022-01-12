@@ -36,6 +36,8 @@ Plug 'puremourning/vimspector'
 
 call plug#end()
 
+let g:test#go#gotest#options = '-race'
+
 " --- Keybindings ---
 
 let mapleader = ' '
@@ -178,6 +180,11 @@ function! DebugCurrentTest()
     call cursor(start_cursor_pos[1:])
 endfunction
 
+sign define LspDiagnosticsSignError text=🔴
+sign define LspDiagnosticsSignWarning text=🟠
+sign define LspDiagnosticsSignInformation text=🔵
+sign define LspDiagnosticsSignHint text=🟢
+
 " Default config from https://github.com/neovim/nvim-lspconfig
 lua << EOF
 local nvim_lsp = require('lspconfig')
@@ -217,12 +224,26 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "gopls" }
+local servers = { "gopls","rust_analyzer" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
+    },
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
     }
   }
 end
