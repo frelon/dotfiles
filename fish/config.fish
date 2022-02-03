@@ -1,4 +1,5 @@
 set -x EDITOR 'nvim'
+set -x BROWSER '/usr/bin/qutebrowser'
 set -x GOPATH '/home/frelon/go'
 set -x PATH $PATH $GOPATH/bin '/home/frelon/.local/bin'
 set -x PATH $PATH '/home/frelon/.cargo/bin'
