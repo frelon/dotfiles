@@ -15,7 +15,6 @@ Plug 'tpope/vim-dispatch'
 Plug 'janko/vim-test'
 Plug 'junegunn/vim-easy-align'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'machakann/vim-highlightedyank'
 Plug 'psliwka/vim-smoothie'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'akarl/autoformat.nvim'
@@ -75,6 +74,12 @@ map Y y$
 
 nnoremap <C-j> :m +1<CR>
 nnoremap <C-k> :m -2<CR>
+
+" Highlighted yank
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+augroup END
 
 " Telescope mappings
 nnoremap <leader>o <cmd>Telescope find_files<cr>
