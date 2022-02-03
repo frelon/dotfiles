@@ -93,6 +93,7 @@ let g:vimspector_enable_mappings = 'HUMAN'
 
 nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
 nnoremap <leader>dt :call DebugCurrentTest()<CR>
+nnoremap <leader>da :call vimspector#LaunchWithSettings(#{configuration: "run"})<CR>
 nnoremap <leader>dd :call vimspector#Continue()<CR>
 nnoremap <leader>dcb :call vimspector#ClearBreakpoints()<CR>
 nnoremap <leader>dr :call vimspector#Reset()<CR>
