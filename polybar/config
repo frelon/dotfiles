@@ -52,9 +52,9 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = Input Mono:pixelsize=10;1
-font-1 = Font Awesome 5 Free:style=Regular:pixelsize=12;2
-font-2 = Font Awesome 5 Free:style=Solid:pixelsize=12;2
-font-3 = Font Awesome 5 Brands:style=Regular:pixelsize=12;2
+font-1 = Font Awesome 6 Free:style=Regular:pixelsize=12;2
+font-2 = Font Awesome 6 Free:style=Solid:pixelsize=12;2
+font-3 = Font Awesome 6 Brands:style=Regular:pixelsize=12;2
 
 modules-left = i3
 modules-right = filesystem pulseaudio memory cpu wlan eth via-vpn battery temperature date
@@ -114,28 +114,35 @@ fuzzy-match = true
 pin-workspaces = true
 strip-wsnumbers = true
 
+# ws icons
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+
 label-mode-padding = 2
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %name%
+label-focused = %icon%
 label-focused-background = ${colors.background-alt}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %name%
+label-unfocused = %icon%
 label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %name%
+label-visible = %icon%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %name%
+label-urgent = %icon%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 

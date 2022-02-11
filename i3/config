@@ -130,6 +130,12 @@ bindsym $mod+Shift+6 move container to workspace number 6; workspace 6
 bindsym $mod+Shift+7 move container to workspace number 7; workspace 7
 bindsym $mod+Shift+8 move container to workspace number 8; workspace 8
 
+# Open specific applications in workspaces
+for_window [class="qutebrowser"] move container to workspace number 2;
+for_window [class="Slack"] move container to workspace number 3;
+for_window [class="Spotify"] move container to workspace number 4;
+for_window [class="firefox"] move container to workspace number 5;
+
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="calamares"] floating enable border normal
@@ -223,7 +229,6 @@ exec --no-startup-id pamac-tray
 exec --no-startup-id xautolock -time 10 -locker /home/frelon/i3/scrlock.sh
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
-exec_always --no-startup-id exec i3-workspace-names-daemon
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Color palette used for the terminal ( ~/.Xresources file )
@@ -256,33 +261,6 @@ set_from_resource $term_color12    color12
 set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
-
-# Start i3bar to display a workspace bar (plus the system information i3status if available)
-#bar {
-#	i3bar_command i3bar
-#	status_command i3status
-#	position bottom
-#
-#	bindsym button4 nop
-#	bindsym button5 nop
-#	strip_workspace_numbers yes
-#
-#    colors {
-#        background #222D31
-#        statusline #F9FAF9
-#        separator  #454947
-#
-##                      border  backgr. text
-#        focused_workspace  #F9FAF9 #16a085 #292F34
-#        active_workspace   #595B5B #353836 #FDF6E3
-#        inactive_workspace #595B5B #222D31 #EEE8D5
-#        binding_mode       #16a085 #2C2C2C #F9FAF9
-#        urgent_workspace   #16a085 #FDF6E3 #E5201D
-#    }
-#}
-
-# hide/unhide i3status bar
-bindsym $mod+m bar mode toggle
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
