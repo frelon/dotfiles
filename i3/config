@@ -130,12 +130,6 @@ bindsym $mod+Shift+6 move container to workspace number 6; workspace 6
 bindsym $mod+Shift+7 move container to workspace number 7; workspace 7
 bindsym $mod+Shift+8 move container to workspace number 8; workspace 8
 
-# Open specific applications in workspaces
-for_window [class="qutebrowser"] move container to workspace number 2;
-for_window [class="Slack"] move container to workspace number 3;
-for_window [class="Spotify"] move container to workspace number 4;
-for_window [class="firefox"] move container to workspace number 5;
-
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="calamares"] floating enable border normal
@@ -226,7 +220,7 @@ exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
-exec --no-startup-id xautolock -time 10 -locker /home/frelon/i3/scrlock.sh
+exec --no-startup-id xautolock -time 60 -locker /home/frelon/i3/scrlock.sh
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 exec_always --no-startup-id ~/.config/polybar/launch.sh
