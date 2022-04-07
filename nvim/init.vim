@@ -52,7 +52,6 @@ nnoremap <leader>gca :Git commit --amend --no-edit<CR><CR>
 nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpf :Git push --force-with-lease<CR>
 nnoremap <leader>rs :!rm .stamp/*<CR>
-nnoremap <leader>c :copen<CR>
 nnoremap <leader>ml :call GolangCILint()<CR>
 nnoremap <leader>e :Explore<CR>
 nnoremap <leader>yp :let @+ = expand("%")<CR>
@@ -165,11 +164,7 @@ sign define LspDiagnosticsSignWarning text=🟠
 sign define LspDiagnosticsSignInformation text=🔵
 sign define LspDiagnosticsSignHint text=🟢
 
-lua << EOF
-
-require('settings')
-require'colorizer'.setup()
-require('lsp')
-require('refactor')
-
-EOF
+lua require('settings')
+lua require'colorizer'.setup()
+lua require('lsp')
+lua require('refactor')

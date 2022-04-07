@@ -1,4 +1,4 @@
-vim.api.nvim_set_option('grepprg', 'rg\\ --vimgrep')
+vim.api.nvim_set_option('grepprg', "rg --vimgrep ")
 vim.api.nvim_set_option('mouse', 'a')
 vim.api.nvim_set_option('hlsearch', true)
 vim.api.nvim_set_option('clipboard', 'unnamedplus')
@@ -14,4 +14,6 @@ vim.api.nvim_set_option('swapfile', false)
 -- set termguicolors
 -- set cursorline
 -- colorscheme simple-dark
+
+vim.api.nvim_set_keymap("n", "<Leader>c", [[ <Esc><Cmd>:Telescope quickfix<CR>]], {noremap = true, silent = true, expr = false})
 
