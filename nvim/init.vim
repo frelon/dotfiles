@@ -8,6 +8,7 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
@@ -35,10 +36,6 @@ call plug#end()
 
 let g:test#go#gotest#options = '-race'
 
-" --- Keybindings ---
-
-lua require('settings')
-
 " Highlighted yank
 augroup highlight_yank
     autocmd!
@@ -63,11 +60,7 @@ autocmd! BufWritePre * :Autoformat
 " Terminal
 autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
 
-" Colors
-set termguicolors
-set cursorline
-colorscheme simple-dark
-
+colorscheme nord
 " Comments and italics
 highlight Comment gui=italic
 
@@ -91,7 +84,6 @@ function! GolangCILint()
         echo "GolangCILint: OK!"
     else
         cexpr l:errors
-        copen
     endif
 endfunction
 
@@ -119,3 +111,5 @@ sign define LspDiagnosticsSignHint text=🟢
 
 lua require('lsp')
 lua require('refactor')
+lua require('settings')
+

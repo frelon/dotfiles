@@ -11,10 +11,9 @@ vim.api.nvim_set_option('signcolumn', 'yes')
 vim.api.nvim_set_option('ignorecase', true)
 vim.api.nvim_set_option('swapfile', false)
 
--- set termguicolors
--- set cursorline
--- colorscheme simple-dark
-
+-- Colors
+vim.api.nvim_set_option('termguicolors', true)
+vim.api.nvim_set_option('cursorline', true)
 
 -- KEYMAPPINGS
 vim.g.mapleader=' '
