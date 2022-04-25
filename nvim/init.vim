@@ -46,6 +46,12 @@ augroup END
 let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
 let g:vimspector_enable_mappings = 'HUMAN'
 
+" Set makeprg for rust buffers to cargo-make
+augroup rustmake
+    autocmd!
+    autocmd FileType rust set makeprg=cargo\ make
+augroup END
+
 " Align GitHub-flavored Markdown tables
 au FileType markdown vmap <leader>f :EasyAlign*<Bar><Enter>
 
