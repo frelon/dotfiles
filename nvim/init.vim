@@ -60,7 +60,8 @@ au FileType markdown vmap <leader>f :EasyAlign*<Bar><Enter>
 " Autoformat settings
 " use bash as shell... TODO
 set shell=/usr/bin/bash
-call autoformat#config('go', ['goimports -local "$(go list -m)"', 'gofumpt -s -extra'])
+call autoformat#config('go', ['goimports -local "$(go list -m)"'])
+" call autoformat#config('go', ['goimports -local "$(go list -m)"', 'gofumpt -s -extra'])
 autocmd! BufWritePre * :Autoformat
 
 " Terminal
@@ -118,4 +119,5 @@ sign define LspDiagnosticsSignHint text=🟢
 lua require('lsp')
 lua require('refactor')
 lua require('settings')
+lua require('tscope')
 
