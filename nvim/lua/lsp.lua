@@ -34,9 +34,6 @@ local on_attach = function(client, bufnr)
 
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-
 nvim_lsp["gopls"].setup({
     on_attach = on_attach,
     flags = {
@@ -65,4 +62,8 @@ nvim_lsp["rust_analyzer"].setup({
             },
         }
     }
+})
+
+nvim_lsp["clangd"].setup({
+    on_attach = on_attach
 })
