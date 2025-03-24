@@ -57,14 +57,18 @@ map('n', '<leader>f', '<cmd>Telescope live_grep<cr>', {noremap=true})
 map('n', '<leader>b', '<cmd>Telescope buffers<cr>', {noremap=true})
 map('n', '<leader>h', '<cmd>Telescope help_tags<cr>', {noremap=true})
 
--- Vimspector
-map('n', '<leader>db', ':call vimspector#ToggleBreakpoint()<CR>', {noremap=true})
-map('n', '<leader>dt', ':call DebugCurrentTest()<CR>', {noremap=true})
-map('n', '<leader>da', ':call vimspector#LaunchWithSettings(#{configuration: "run"})<CR>', {noremap=true})
-map('n', '<leader>dd', ':call vimspector#Continue()<CR>', {noremap=true})
-map('n', '<leader>dcb', ':call vimspector#ClearBreakpoints()<CR>', {noremap=true})
-map('n', '<leader>dr', ':call vimspector#Reset()<CR>', {noremap=true})
-map('n', '<leader>dj', ':call vimspector#StepOver()<CR>', {noremap=true})
-map('n', '<leader>dl', ':call vimspector#StepInto()<CR>', {noremap=true})
-map('n', '<leader>dk', ':call vimspector#StepOut()<CR>', {noremap=true})
+
+-- Auto format go files
+vim.api.nvim_create_augroup("AutoFormat", {})
+vim.api.nvim_create_autocmd(
+    "BufWritePost",
+    {
+        pattern = "*.go",
+        group = "AutoFormat",
+        callback = function()
+            vim.cmd("silent !goimports -local (go list -m) -w %")
+            vim.cmd("edit")
+        end,
+    }
+)
 

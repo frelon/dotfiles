@@ -64,6 +64,8 @@ nvim_lsp["rust_analyzer"].setup({
     }
 })
 
-nvim_lsp["clangd"].setup({
-    on_attach = on_attach
-})
+-- nvim_lsp["clangd"].setup({
+--     on_attach = on_attach
+-- })
+
+
