@@ -13,3 +13,13 @@ set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1
 
 alias git-delete-merged "git branch --merged | egrep -v \"(^\*|master|develop|stage|main)\" | xargs git branch -d"
+
+abbr --add g git
+abbr --add k kubectl
+abbr --add vim nvim
+abbr --add tf tofu -autoapprove
+abbr --add isc osc -A https://api.suse.de
+abbr --add m meson
+abbr --add mc meson compile -C
+abbr --add d docker
+abbr --add gsu git submodule update --init --remote --recursive
