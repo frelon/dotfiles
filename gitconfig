@@ -9,8 +9,67 @@
 lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 lg = !"git lg1"
+blam = blame -w -C -C -C
+
 [credential]
 	helper = store
+
+[fetch]
+	# prune = true
+        pruneTags = true
+        all = true
+
 [pull]
 	rebase = true
 
+[push]
+	autoSetupRemote = true
+
+[url "https://github.com/"]
+	insteadOf = "git@github.com:"
+[url "git@github.com:"]
+	pushInsteadOf = "https://github.com/"
+	pushInsteadOf = "git@github.com:"
+
+[init]
+	defaultBranch = main
+
+[core]
+        abbrev = 12
+
+[pretty]
+        fixes = Fixes: %h (\"%s\")
+
+#[diff]
+#        algorithm = histogram
+#        colorMoved = plain
+#        mnemonicPrefix = true
+#        renames = true
+
+[diff]
+    external = difft
+    tool = difftastic
+
+
+[difftool]
+    prompt = false
+
+[pager]
+    difftool = true
+
+[difftool "difftastic"]
+    # See `man git-difftool` for a description of MERGED, LOCAL and REMOTE.
+    cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate
+
+[sendemail]
+	smtpserver = mailcluster.loopia.se
+	smtpuser = fredrik@frelon.se
+	smtpdomain = frelon.se
+	smtpencryption = ssl
+	smtpserverport = 465
